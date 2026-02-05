@@ -1,59 +1,46 @@
-# NetFlux
+# ⚡ NetFlux: Network Operations Central
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+**NetFlux** is a specialized network monitoring and visualization platform designed to simplify the management of complex multi-vendor network infrastructures. It provides real-time visibility into device health and logical connectivity.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🎯 Project Goals & Mission
 
-```bash
-ng serve
-```
+### **Mission**
+To empower network administrators with an intuitive, real-time visualization tool that bridges the gap between raw network data and human-centric monitoring.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### **Key Objectives**
+* **Centralized Monitoring:** Consolidate status data from various network devices into a single unified view.
+* **Visual Clarity:** Transform abstract network logs into an interactive topology map for faster troubleshooting.
+* **Reactive Architecture:** Utilize **Angular** and **RxJS** to handle asynchronous data streams with high responsiveness.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🚀 Main Functions
 
-```bash
-ng generate component component-name
-```
+* **Real-time Inventory Dashboard:** Centralized monitoring for devices from vendors like Cisco, Arista, and Juniper.
+* **Live Status Tracking:** Real-time health-check simulation (Online/Offline) using RxJS Observables.
+* **Interactive Network Topology Map:** Visual representation of physical and logical network connections using `ngx-graph`.
+* **Device Management (CRUD):** Robust interface for adding, updating, and managing network nodes with reactive forms.
+* **Event Logging:** Real-time logging of network events, such as Link Up/Down status changes.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## 🛠️ Tech Stack
 
-## Building
+* **Frontend:** Angular (v17+)
+* **State Management:** RxJS (Asynchronous Data Streams)
+* **Styling:** CSS3 (Electric Yellow Theme)
+* **Visualization:** ngx-graph / SVG
 
-To build the project run:
+---
 
-```bash
-ng build
-```
+## 📈 Expected Outcomes
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### **Technical Outcomes**
+* Production-ready frontend architecture with modular components.
+* Advanced state management using RxJS for real-time simulation.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### **Learning Outcomes**
+* Mastery of Angular Dependency Injection and Component Lifecycle.
+* Experience in designing UI/UX specifically for data-dense technical dashboards.
