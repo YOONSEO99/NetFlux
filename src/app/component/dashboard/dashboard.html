@@ -1,0 +1,18 @@
+<div class="dashboard-container">
+    <h2>Summary Cards</h2>
+
+    <div class="card-row">
+        <div class="card total">
+            <h3>Total Devices</h3>
+            <p class="count">{{devices.length}}</p>
+        </div>
+        <div class="card online">
+            <h3>Online</h3>
+            <p class="count">{{getStatusCount('online')}}</p>
+        </div>
+        <div class="card offline">
+            <h3>Offline</h3>
+            <p class="count">{{getStatusCount('offline')}}</p>
+        </div>
+    </div>
+</div>

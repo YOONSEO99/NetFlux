@@ -1,25 +1,25 @@
-<div class="main-container">
-  <header>
-    <h1>{{ title() }} - Network Inventory </h1>
+<div class="app-container">
+  <header class="top-header">
+    <div class="logo-section">
+      <img src="images/Logo.png" alt="NetFlux Logo">
+      <h1>NetFlux</h1>
+    </div>
+    <div class="system-status">
+      <span>{{currentDate | date: 'medium'}}</span>
+      <div class="status-badge">System: HEALTHY ✅</div>
+    </div>
   </header>
 
-  <section class="device-grid">
-    @for (device of devices; track device.id){
-    <div class="device-item">
-      <div class="device-info">
-        <h3>{{device.hostname}}</h3>
-        <p>IP : {{device.ipAddress}}</p>
-        <small>Vendor: {{device.vendor}}</small>
-      </div>
+  <div class="body-wrapper">
+    <aside class="sidebar">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/inventory">Inventory</a>
+      <a routerLink="/topology">Topology</a>
+      <a routerLink="/logs">Logs</a>
+    </aside>
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 
-      <div class="status-indicator" [attr.data-status]="device.status">
-        {{device.status}}
-      </div>
-    </div>
-    } @empty {
-    <div class="empty-status">
-      <p>No devices found. Checking the network...</p>
-    </div>
-    }
-  </section>
 </div>

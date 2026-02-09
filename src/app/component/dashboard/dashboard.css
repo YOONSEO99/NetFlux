@@ -1,0 +1,49 @@
+.dashboard-container {
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.card-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    flex: 1;
+    min-width: 100px;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: black;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.card h3{
+    margin: 0;
+    font-size: 1rem;
+    color: white;
+}
+
+.count{
+    margin: 10px 0 0;
+    font-size: 2.5rem;
+    font-size: bold;
+}
+
+.total {border: solid 3px #FFC943;}
+.total .count {color: #FFC943;}
+.online {border: solid 3px #2ecc71;}
+.online .count{color: #2ecc71;}
+.offline {border: solid 3px #e74c3c;}
+.offline .count{color: #e74c3c;}
