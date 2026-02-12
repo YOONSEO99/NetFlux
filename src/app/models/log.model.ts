@@ -1,10 +1,11 @@
-export type LogType = 'info' | 'warning' | 'error';
+export type severity = 'INFO' | 'WARNING' | 'ERROR';
 
 //Log
 export interface Log{
     id  : string;   //Primary Key
     deviceId : string;  //Foreign Key(Which Device)
-    timestamp : string;
+    hostname : string;
+    timestamp : Date;
     message : string;
-    type : LogType;
+    type : severity;
 }
