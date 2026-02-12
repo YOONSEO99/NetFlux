@@ -20,7 +20,8 @@
         <section class="inventory-section">
             <h2>inventory</h2>
             <div class="inventory">
-                <input type="text" class="inventory-search" placeholder="Search your device">
+                <input type="text" class="inventory-search" placeholder="Input hostname" 
+                [(ngModel)]="searchTerm">
                 <button type="button" class="button filter-btn">Filter by Vendor</button>
                 <button type="button" class="button add-device-btn">+ Add Device</button>
                 <div class="inventory-box">
@@ -34,7 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for (device of devices; track device.id){
+                            @for (device of filterDevices; track device.id){
                             <tr>
                                 <td>{{device.hostname}}</td>
                                 <td>{{device.ipAddress}}</td>
@@ -57,13 +58,13 @@
         <section class="log-section">
             <h2>Logs</h2>
             <div class="log-box">
-                @for (log of logs; track log.id){
+                @for (log of logs; track $index){
                 <p class="log-text">
                     <span [ngClass]="{
                     'text-error' : log.type === 'ERROR',
                     'text-info' : log.type === 'INFO',
                     'text-warning' : log.type === 'WARNING'
-                }">[{{log.type}}]</span> {{log.hostname}} : {{log.timestamp | date:'HH:mm:ss'}} <span [ngClass]="{
+                }">[{{log.type}}]</span> {{log.hostname}} : {{log.timestamp}} <span [ngClass]="{
                     'text-error' : log.type === 'ERROR',
                     'text-info' : log.type === 'INFO',
                     'text-warning' : log.type === 'WARNING'
@@ -79,7 +80,8 @@
             <svg width="100%" height="100%" viewBox="0 0 1000 250">
                 @for (device of devices; track device.id; let i = $index){
                 <g [attr.transform]="'translate(' + (100 + (i*80)) + ', 120)'">
-                    <circle r="25" [attr.fill]="device.status ==='online'? '#2ecc71' : '#e74c3c'" stroke="#fff"
+                    <circle r="25" [attr.fill]="device.status ==='online'? '#2ecc71' : '#e74c3c'" 
+                    [attr.stroke]="searchTerm&&device.hostname.toLowerCase().includes(searchTerm) ? '#FFC943' : '#fff'"
                         stroke-width="2" />
                     <text y="45" fill="white" text-anchor="middle" font-size="7">
                         {{device.hostname}}

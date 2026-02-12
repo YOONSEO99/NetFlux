@@ -5,7 +5,7 @@ export interface Log{
     id  : string;   //Primary Key
     deviceId : string;  //Foreign Key(Which Device)
     hostname : string;
-    timestamp : Date;
+    timestamp : string;
     message : string;
     type : severity;
 }
