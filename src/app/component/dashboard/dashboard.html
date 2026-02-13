@@ -22,7 +22,7 @@
             <div class="inventory">
                 <input type="text" class="inventory-search" placeholder="Input hostname" 
                 [(ngModel)]="searchTerm">
-                <button type="button" class="button filter-btn">Filter by Vendor</button>
+                <button type="button" class="button filter-btn" (click)="toggleVendorSort()">Sort by Vendor</button>
                 <button type="button" class="button add-device-btn">+ Add Device</button>
                 <div class="inventory-box">
                     <table>

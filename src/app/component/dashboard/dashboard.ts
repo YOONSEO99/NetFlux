@@ -15,6 +15,7 @@ import { Log } from '../../models';
   styleUrl: './dashboard.css',
 })
 export class Dashboard implements OnInit {
+  originalDevices : Device[] = [];
   devices: Device[] = [];
   logs: Log[] = [];
   searchTerm: string = "";
@@ -34,6 +35,7 @@ export class Dashboard implements OnInit {
     this.deviceService.getDevices().subscribe({
       next: (data) => {
         this.devices = data;
+        this.originalDevices = [...data];
         console.log("Data load Completed!", this.devices);
       },
       error: (err) => console.error("Error Occured!", err)
@@ -52,6 +54,15 @@ export class Dashboard implements OnInit {
           this.logs = this.logs.slice(1);
         }
         this.cdr.detectChanges();
+
+        const targetDevice = this.devices.find(d => d.hostname === newLog.hostname);
+        if (targetDevice) {
+          if (newLog.message.toLowerCase().includes("down")) {
+            targetDevice.status = "offline";
+          }else if(newLog.message.toLowerCase().includes("up")) {
+            targetDevice.status="online";
+          }
+        }
         console.log("Log load completed!", this.logs);
       },
       error: (err) => console.error("Error Occured!", err)
@@ -65,9 +76,21 @@ export class Dashboard implements OnInit {
       d.hostname.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
     return result;
+  }
 
-    /* return this.devices.filter(d=> 
-    d.hostname.toLowerCase().includes(this.searchTerm.toLowerCase())
-  );*/
+  sortMode : 'asc' | 'desc' | 'none' = 'none';
+
+  toggleVendorSort() : void {
+    if(this.sortMode==='none'){
+      this.devices.sort((a,b)=> a.vendor.localeCompare(b.vendor));
+      this.sortMode='asc';
+    }else if(this.sortMode==='asc'){
+      this.devices.sort((a,b)=>b.vendor.localeCompare(a.vendor));
+      this.sortMode='desc';
+    }else{
+      this.devices=[...this.originalDevices];
+      this.sortMode='none';
+    }
+    this.cdr.detectChanges();
   }
 }
