@@ -1,0 +1,41 @@
+h2{
+    margin-top: 0;
+}
+
+.log-container {
+    display: block;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    height: auto;
+    min-height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 30px;
+}
+
+.log-box{
+    background-color: #222;
+    width: 100%;
+    height: calc(100vh - 175px);
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.log-text{
+    margin:0;
+    padding:3px 10px;
+    font-size: 1.25rem;
+}
+
+/*text color*/
+.text-count {color: #FFC943;}
+.text-online { color: #2ecc71}
+.text-offline {color: #e74c3c;}
+
+.text-error {color: #e74c3c;}
+.text-info {color: #2ecc71;}
+.text-warning {color: #FFC943;}

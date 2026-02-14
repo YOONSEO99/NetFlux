@@ -1,0 +1,27 @@
+h2 {
+    margin-top: 0;
+}
+
+.topology-container {
+    display: block;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    height: auto;
+    min-height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 30px;
+}
+
+.topology-box {
+    border: 5px solid #e6b53c;
+    background-color: #222;
+    border-radius: 10px;
+
+    height: calc(100vh - 185px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

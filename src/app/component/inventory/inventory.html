@@ -1,1 +1,97 @@
-<p>inventory works!</p>
+<div class="inventory-container">
+    <section class="inventory-section">
+        <h2>inventory</h2>
+        <div class="inventory">
+            <input type="text" class="inventory-search" placeholder="Input hostname" [(ngModel)]="searchTerm">
+            <button type="button" class="button filter-btn" (click)="toggleVendorSort()">Sort by Vendor </button>
+            <button type="button" class="button add-device-btn" (click)="openAddModal()">+ Add Device</button>
+            <div class="inventory-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hostname</th>
+                            <th>IP Address</th>
+                            <th>Vendor</th>
+                            <th>Status</th>
+                            <th>Rack NO</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (device of filterDevices; track device.id){
+                        <tr>
+                            <td>{{device.hostname}}</td>
+                            <td>{{device.ipAddress}}</td>
+                            <td [ngClass]="{
+                                'text-cisco' : device.vendor === 'Cisco',
+                                'text-arista' : device.vendor === 'Arista',
+                                'text-others' : device.vendor === 'Others'
+                            }">{{device.vendor}}</td>
+                            <td [ngClass]="{
+                                'text-online' : device.status === 'online',
+                                'text-offline' : device.status === 'offline'
+                            }">{{device.status}}</td>
+                            <td>{{device.rackNo}}</td>
+                            <td>{{device.description}}</td>
+                            <td>    
+                                <button class="edit-btn" (click)="onEditDevice(device)">Edit</button>
+                                <button class="del-btn" (click)="onDeleteDevice(device.id)">Delete</button>
+                            </td>
+                        </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <div class="newDeviceModal" *ngIf="isModalOpen">
+        <div class="modal-content">
+            <h2>{{isEditMode? 'Edit Device' : 'Add New Device'}}</h2>
+
+            <div class="input-group">
+                <label>Hostname</label>
+                <input type="text" [(ngModel)]="newDevice.hostname" placeholder="e.g. VAN-Spine-01">
+            </div>
+
+            <div class="input-group">
+                <label>IP Address</label>
+                <input type="text" [(ngModel)]="newDevice.ipAddress" placeholder="e.g. 192.168.1.1">
+            </div>
+
+            <div class="input-group">
+                <label>Rack No</label>
+                <input type="text" [(ngModel)]="newDevice.rackNo" placeholder="e.g. 7F-08-25">
+            </div>
+
+            <div class="input-group">
+                <label>Description</label>
+                <input type="text" [(ngModel)]="newDevice.description" placeholder="e.g. Main Spine SW">
+            </div>
+
+            <div class="input-group">
+                <label>Vendor</label>
+                <select [(ngModel)]="newDevice.vendor">
+                    <option value="Cisco">Cisco</option>
+                    <option value="Arista">Arista</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Status</label>
+                <select [(ngModel)]="newDevice.status">
+                    <option value="online">Online</option>
+                    <option value="offline">Offline</option>
+                </select>
+            </div>
+
+            <div class="modal-action">
+                <button class="save-btn" (click)="isEditMode ? onUpdateDevice() : onAddDevice()">
+                    {{isEditMode ? 'Update' : 'Save'}}</button>
+                <button class="cancel-btn" (click)="isModalOpen = false; isEditMode=false;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

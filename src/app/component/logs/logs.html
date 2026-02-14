@@ -1,1 +1,20 @@
-<p>logs works!</p>
+<div class="log-container">
+        <section class="log-section">
+            <h2>Logs</h2>
+            <div class="log-box">
+                @for (log of logs; track $index){
+                <p class="log-text">
+                    <span [ngClass]="{
+                    'text-error' : log.type === 'ERROR',
+                    'text-info' : log.type === 'INFO',
+                    'text-warning' : log.type === 'WARNING'
+                }">[{{log.type}}]</span> {{log.hostname}} : {{log.timestamp}} <span [ngClass]="{
+                    'text-error' : log.type === 'ERROR',
+                    'text-info' : log.type === 'INFO',
+                    'text-warning' : log.type === 'WARNING'
+                }">{{log.message}}</span>
+                </p>
+                }
+            </div>
+        </section>
+    </div>

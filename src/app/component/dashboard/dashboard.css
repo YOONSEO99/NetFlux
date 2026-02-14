@@ -186,6 +186,66 @@ h2{
     align-items: center;
 }
 
+.newDeviceModal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content{
+    background-color: #222;
+    padding: 2rem;
+    border: 2px solid #FFC943;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+}
+
+.input-group{
+    margin-bottom: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.input-group label{
+    font-size: 0.9rem;
+    color: white;
+}
+
+.input-group input, .input-group select{
+    padding: 0.6rem;
+    border: 3px solid #ccc;
+    color: #ccc;
+    font-size: small;
+    font-weight: bold;
+    border-radius: 6px;
+    background-color: #2a2a2a;
+}
+
+.input-group input:hover, .input-group input:focus, .input-group select:focus, .modal-action button:hover{
+    border: 3px solid #e6b53c;
+}
+
+.modal-action button{
+    width: 70px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 6px;
+    border: 3px solid #ccc;
+    padding: 0.6rem;
+    background-color: #2a2a2a;
+    color: #ccc;
+    font-weight: bold;
+}
+
 /* border color*/
 .total {border: solid 3px #FFC943;}
 .online {border: solid 3px #2ecc71;}
@@ -198,6 +258,7 @@ h2{
 
 .text-cisco { color: #FF9E42;}
 .text-arista { color: #3DADFF;}
+.text-others { color: #ccc;}
 
 .text-error {color: #e74c3c;}
 .text-info {color: #2ecc71;}
