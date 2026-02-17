@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { timer, map, Observable, of } from 'rxjs';
+import { timer, map, Observable, of, BehaviorSubject } from 'rxjs';
 import { Log } from '../models';
 import { Device } from '../models';
 import { MOCK_DEVICES } from '../models/mock-devices';
@@ -8,15 +8,29 @@ import { MOCK_DEVICES } from '../models/mock-devices';
   providedIn: 'root',
 })
 export class LogService {
+  private STORAGE_KEY = 'netflux_logs';
+  private logs: Log[] = [];
+  private logSubject = new BehaviorSubject<Log[]>(this.logs);
 
-  //mock data
-  // private mockLogs: Log[] = [
-  //   { id: '1', deviceId: '9', hostname: 'Cloud-SW-01', timestamp: new Date('2026-02-10 15:50'), message: 'Link Down', type: 'ERROR' },
-  //   { id: '2', deviceId: '2', hostname: 'Border-SW-02', timestamp: new Date('2026-02-10 19:27'), message: 'Config Changed', type: 'INFO' }
-  // ];
+  constructor() {
+    const saved = localStorage.getItem(this.STORAGE_KEY);
+    const parsed = saved ? JSON.parse(saved) : [];
 
-  getLogs(): Observable<Log> {
-    return this.generateLogs();
+    this.logs = Array.isArray(parsed) ? parsed : [];
+
+    this.generateLogs().subscribe(newLog => {
+      this.logs = [...this.logs, newLog];
+
+      if (this.logs.length > 50) {
+        this.logs = this.logs.slice(1);
+      }
+      this.logSubject.next(this.logs);
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.logs));
+    })
+  }
+
+  getLogs(): Observable<Log[]> {
+    return this.logSubject.asObservable();
   }
 
   generateLogs(): Observable<Log> {
@@ -32,7 +46,7 @@ export class LogService {
       { message: 'SNMP Timeout', type: 'WARNING' }
     ];
 
-    return timer(0,4000).pipe(
+    return timer(0, 4000).pipe(
       map((index) => {
         //choose random device
         const device = MOCK_DEVICES[Math.floor(Math.random() * MOCK_DEVICES.length)];

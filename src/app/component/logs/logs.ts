@@ -18,6 +18,7 @@ export class Logs implements OnInit {
   logs: Log[] = [];
 
   constructor(
+    private deviceService: DeviceService,
     private logService: LogService,
     private cdr: ChangeDetectorRef
   ) { }
@@ -27,25 +28,24 @@ export class Logs implements OnInit {
   }
 
   loadLogs(): void {
-    this.logService.getLogs().subscribe({
-      next: (newLog) => {
-        this.logs = [... this.logs, newLog];
-        if (this.logs.length > 20) {
-          this.logs = this.logs.slice(1);
-        }
-        this.cdr.detectChanges();
+    this.logService.getLogs().subscribe((allLogs)=>{
+      const latestLog = allLogs[allLogs.length-1];
+      if(!latestLog) return;
 
-        const targetDevice = this.devices.find(d => d.hostname === newLog.hostname);
-        if (targetDevice) {
-          if (newLog.message.toLowerCase().includes("down")) {
-            targetDevice.status = "offline";
-          } else if (newLog.message.toLowerCase().includes("up")) {
-            targetDevice.status = "online";
-          }
+      const targetDevice = this.devices.find(d=>d.hostname === latestLog.hostname);
+      if(targetDevice){
+        const msg = latestLog.message.toLowerCase();
+        let newStatus : 'online' | 'offline' = targetDevice.status;
+        if(msg.includes('down')) newStatus='offline';
+        if(msg.includes('up')) newStatus='online';
+
+        if(newStatus !== targetDevice.status){
+          targetDevice.status = newStatus;
+          this.deviceService.updateDevice(targetDevice);
         }
-        console.log("Log load completed!", this.logs);
-      },
-      error: (err) => console.error("Error Occured!", err)
+      }
+      this.logs=allLogs;
+      this.cdr.detectChanges();
     });
   }
 }
