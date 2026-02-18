@@ -18,6 +18,7 @@ export class Topology implements OnInit {
   devices: Device[] = [];
   logs: Log[] = [];
   searchTerm: string = "";
+  protected Math = Math;
 
   constructor(
     private deviceService: DeviceService,

@@ -1,8 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { RouterOutlet, RouterLinkWithHref, RouterLinkActive } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { RouterOutlet, RouterLinkWithHref, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Device } from './models';
 import { DeviceService } from './service/device';
+import { AuthService } from './service/auth';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,11 @@ import { DeviceService } from './service/device';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {  
+export class App implements OnInit{  
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  currentUser : any = null;
   currentDate = new Date();
   nowStatus : string ='';
   devices : Device[] = [];
@@ -29,6 +34,15 @@ export class App {
       this.devices = updateDevice;
       this.nowStatus = this.statusCheck();
     });
+
+    this.authService.getCurrentUser().subscribe(user=>{
+      this.currentUser = user;
+    });
+  }
+
+  onLogout(){
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   statusCheck() : string{

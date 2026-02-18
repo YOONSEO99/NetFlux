@@ -19,6 +19,7 @@ export class Dashboard implements OnInit {
   devices: Device[] = [];
   logs: Log[] = [];
   searchTerm: string = "";
+  protected Math = Math;
 
   constructor(
     private deviceService: DeviceService,
@@ -34,7 +35,7 @@ export class Dashboard implements OnInit {
   loadDevices(): void {
     this.deviceService.getDevices().subscribe({
       next: (data) => {
-        this.devices = data;
+        this.devices = [...data];
         this.originalDevices = [...data];
         console.log("Data load Completed!", this.devices);
       },
@@ -81,10 +82,10 @@ export class Dashboard implements OnInit {
 
   toggleVendorSort(): void {
     if (this.sortMode === 'none') {
-      this.devices.sort((a, b) => a.vendor.localeCompare(b.vendor));
+      this.devices=[...this.devices].sort((a, b) => a.vendor.localeCompare(b.vendor));
       this.sortMode = 'asc';
     } else if (this.sortMode === 'asc') {
-      this.devices.sort((a, b) => b.vendor.localeCompare(a.vendor));
+      this.devices=[...this.devices].sort((a, b) => b.vendor.localeCompare(a.vendor));
       this.sortMode = 'desc';
     } else {
       this.devices = [...this.originalDevices];
@@ -107,6 +108,7 @@ export class Dashboard implements OnInit {
 
   onAddDevice(): void {
     if (!this.newDevice.hostname || !this.newDevice.ipAddress) return;
+
     const newId = `dev-${this.devices.length + 1}`;
     const deviceToPush = {...this.newDevice, id:newId};
     
@@ -120,8 +122,6 @@ export class Dashboard implements OnInit {
     //   description: this.newDevice.description,
     // }
 
-    this.devices = [...this.devices, deviceToPush];
-    this.originalDevices=[...this.originalDevices, deviceToPush];
     this.deviceService.addDevice(deviceToPush);
     
     this.newDevice = {
@@ -135,6 +135,7 @@ export class Dashboard implements OnInit {
     }
 
     this.isModalOpen = false;
+    this.sortMode='none';
     this.cdr.detectChanges();
   }
 

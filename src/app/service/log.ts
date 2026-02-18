@@ -1,15 +1,18 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { timer, map, Observable, of, BehaviorSubject } from 'rxjs';
 import { Log } from '../models';
 import { Device } from '../models';
+import { DeviceService } from './device';
 import { MOCK_DEVICES } from '../models/mock-devices';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LogService {
+  private deviceService = inject(DeviceService);
   private STORAGE_KEY = 'netflux_logs';
   private logs: Log[] = [];
+  private currentDevices: Device[] = [];
   private logSubject = new BehaviorSubject<Log[]>(this.logs);
 
   constructor() {
@@ -18,6 +21,13 @@ export class LogService {
 
     this.logs = Array.isArray(parsed) ? parsed : [];
 
+    this.deviceService.getDevices().subscribe(data => {
+      this.currentDevices = data;
+    });
+    this.startLogging();
+  }
+
+  private startLogging() {
     this.generateLogs().subscribe(newLog => {
       this.logs = [...this.logs, newLog];
 
@@ -26,7 +36,7 @@ export class LogService {
       }
       this.logSubject.next(this.logs);
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.logs));
-    })
+    });
   }
 
   getLogs(): Observable<Log[]> {
@@ -49,7 +59,8 @@ export class LogService {
     return timer(0, 4000).pipe(
       map((index) => {
         //choose random device
-        const device = MOCK_DEVICES[Math.floor(Math.random() * MOCK_DEVICES.length)];
+        const deviceList = this.currentDevices.length > 0 ? this.currentDevices : MOCK_DEVICES;
+        const device = deviceList[Math.floor(Math.random() * deviceList.length)];
         //choose random event template
         const event = eventTemplates[Math.floor(Math.random() * eventTemplates.length)];
 

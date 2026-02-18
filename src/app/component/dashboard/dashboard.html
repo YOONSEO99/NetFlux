@@ -20,8 +20,7 @@
         <section class="inventory-section">
             <h2>inventory</h2>
             <div class="inventory">
-                <input type="text" class="inventory-search" placeholder="Input hostname" 
-                [(ngModel)]="searchTerm">
+                <input type="text" class="inventory-search" placeholder="Input hostname" [(ngModel)]="searchTerm">
                 <button type="button" class="button filter-btn" (click)="toggleVendorSort()">Sort by Vendor </button>
                 <button type="button" class="button add-device-btn" (click)="isModalOpen = true">+ Add Device</button>
                 <div class="inventory-box">
@@ -80,9 +79,10 @@
         <div class="topology-box">
             <svg width="100%" height="100%" viewBox="0 0 1000 250">
                 @for (device of devices; track device.id; let i = $index){
-                <g [attr.transform]="'translate(' + (100 + (i*80)) + ', 120)'">
-                    <circle r="25" [attr.fill]="device.status ==='online'? '#2ecc71' : '#e74c3c'" 
-                    [attr.stroke]="searchTerm&&device.hostname.toLowerCase().includes(searchTerm) ? '#FFC943' : '#fff'"
+                <g
+                    [attr.transform]="'translate(' + (100 + (i % 10 * 85)) + ', ' + (80 + (Math.floor(i / 10) * 100)) + ')'">
+                    <circle r="25" [attr.fill]="device.status ==='online'? '#2ecc71' : '#e74c3c'"
+                        [attr.stroke]="searchTerm&&device.hostname.toLowerCase().includes(searchTerm) ? '#FFC943' : '#fff'"
                         stroke-width="2" />
                     <text y="45" fill="white" text-anchor="middle" font-size="7">
                         {{device.hostname}}

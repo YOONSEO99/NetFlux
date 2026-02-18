@@ -1,0 +1,31 @@
+<div class="auth-page">
+    <div class="auth-container">
+        <div class="logo-section">
+            <img src="images/Logo.png" alt="NetFlux Logo">
+            <h1 class="brand-name">NetFlux</h1>
+        </div>
+
+        <div class="auth-form">
+            <div class="input-group">
+                <label>ID</label>
+                <input type="text" [(ngModel)]="signupData.id" placeholder="input your ID">
+
+                <label>Password</label>
+                <input type="password" [(ngModel)]="signupData.password" placeholder="input your password">
+
+                <label>Confirm Password</label>
+                <input type="password" [(ngModel)]="signupData.confirmPassword" placeholder="input New password again">
+
+                <label>Username</label>
+                <input type="text" [(ngModel)]="signupData.username" placeholder="input your username">
+            </div>
+
+            <button class="btn-primary" (click)="onSignup()">Sign Up</button>
+
+            <p class="login-link">
+                Are you already a member?
+                <span class="link" routerLink="/login">Login</span>
+            </p>
+        </div>
+    </div>
+</div>

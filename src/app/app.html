@@ -11,13 +11,22 @@
   </header>
 
   <div class="body-wrapper">
-    <aside class="sidebar">
-      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-      <a routerLink="/inventory" routerLinkActive="active">Inventory</a>
-      <a routerLink="/topology" routerLinkActive="active">Topology</a>
-      <a routerLink="/logs" routerLinkActive="active">Logs</a>
+    <aside class="sidebar" *ngIf="currentUser">
+      <nav class="menu-links">
+        <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+        <a routerLink="/inventory" routerLinkActive="active">Inventory</a>
+        <a routerLink="/topology" routerLinkActive="active">Topology</a>
+        <a routerLink="/logs" routerLinkActive="active">Logs</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <span class="ment">Welcome</span><br>
+          <span class="user-name">{{currentUser.username}}!</span>
+        </div><br>
+        <button class="logout-btn" (click)="onLogout()">Logout</button>
+      </div>
     </aside>
-    <main class="content">
+    <main class="content" [style.width]="currentUser ? 'calc(100% - 250px)' : '100%'">
       <router-outlet></router-outlet>
     </main>
   </div>
