@@ -35,8 +35,15 @@ export class Dashboard implements OnInit {
   loadDevices(): void {
     this.deviceService.getDevices().subscribe({
       next: (data) => {
-        this.devices = [...data];
-        this.originalDevices = [...data];
+        if (this.sortMode === 'asc') {
+          this.devices = [...data].sort((a, b) => a.vendor.localeCompare(b.vendor));
+        } else if (this.sortMode === 'desc') {
+          this.devices = [...data].sort((a, b) => b.vendor.localeCompare(a.vendor));
+        } else {
+          this.devices = [...data];
+          this.originalDevices = [...data];
+        }
+
         console.log("Data load Completed!", this.devices);
       },
       error: (err) => console.error("Error Occured!", err)
@@ -48,18 +55,18 @@ export class Dashboard implements OnInit {
   }
 
   loadLogs(): void {
-    this.logService.getLogs().subscribe((allLogs)=>{
-      const latestLog = allLogs[allLogs.length-1];
-      if(!latestLog) return;
+    this.logService.getLogs().subscribe((allLogs) => {
+      const latestLog = allLogs[allLogs.length - 1];
+      if (!latestLog) return;
 
-      const targetDevice = this.devices.find(d=> d.hostname === latestLog.hostname);
-      if(targetDevice){
+      const targetDevice = this.devices.find(d => d.hostname === latestLog.hostname);
+      if (targetDevice) {
         const msg = latestLog.message.toLowerCase();
-        let newStatus : 'online' | 'offline' = targetDevice.status;
-        if(msg.includes('down')) newStatus='offline';
-        if(msg.includes('up')) newStatus='online';
+        let newStatus: 'online' | 'offline' = targetDevice.status;
+        if (msg.includes('down')) newStatus = 'offline';
+        if (msg.includes('up')) newStatus = 'online';
 
-        if(newStatus !== targetDevice.status){
+        if (newStatus !== targetDevice.status) {
           targetDevice.status = newStatus;
           this.deviceService.updateDevice(targetDevice);
         }
@@ -82,10 +89,10 @@ export class Dashboard implements OnInit {
 
   toggleVendorSort(): void {
     if (this.sortMode === 'none') {
-      this.devices=[...this.devices].sort((a, b) => a.vendor.localeCompare(b.vendor));
+      this.devices = [...this.devices].sort((a, b) => a.vendor.localeCompare(b.vendor));
       this.sortMode = 'asc';
     } else if (this.sortMode === 'asc') {
-      this.devices=[...this.devices].sort((a, b) => b.vendor.localeCompare(a.vendor));
+      this.devices = [...this.devices].sort((a, b) => b.vendor.localeCompare(a.vendor));
       this.sortMode = 'desc';
     } else {
       this.devices = [...this.originalDevices];
@@ -110,20 +117,16 @@ export class Dashboard implements OnInit {
     if (!this.newDevice.hostname || !this.newDevice.ipAddress) return;
 
     const newId = `dev-${this.devices.length + 1}`;
-    const deviceToPush = {...this.newDevice, id:newId};
-    
-    // this.newDevice = {
-    //   id: newId,
-    //   hostname: this.newDevice.hostname,
-    //   ipAddress: this.newDevice.ipAddress,
-    //   vendor: this.newDevice.vendor,
-    //   status: this.newDevice.status,
-    //   rackNo: this.newDevice.rackNo,
-    //   description: this.newDevice.description,
-    // }
+    const deviceToPush = { ...this.newDevice, id: newId };
+
+    this.devices = [...this.devices, deviceToPush];
+    this.originalDevices = [...this.originalDevices, deviceToPush];
+
+    this.devices = [...this.originalDevices];
+    this.sortMode = 'none';
 
     this.deviceService.addDevice(deviceToPush);
-    
+
     this.newDevice = {
       id: '',
       hostname: '',
@@ -135,7 +138,7 @@ export class Dashboard implements OnInit {
     }
 
     this.isModalOpen = false;
-    this.sortMode='none';
+    this.sortMode = 'none';
     this.cdr.detectChanges();
   }
 

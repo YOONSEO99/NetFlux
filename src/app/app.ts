@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet, RouterLinkWithHref, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Device } from './models';
 import { DeviceService } from './service/device';
 import { AuthService } from './service/auth';
@@ -8,7 +9,7 @@ import { AuthService } from './service/auth';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLinkWithHref, CommonModule, RouterLinkActive],
+  imports: [RouterOutlet, RouterLinkWithHref, CommonModule, RouterLinkActive, FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -53,4 +54,33 @@ export class App implements OnInit{
     }
     return "Healthy✅";
   }
+
+  isModalOpen : boolean = false;
+
+  userEdit: any = {
+    id:'',
+    password:'',
+    confirmPassword:'',
+    username:''
+  };
+
+  onEditUser() : void{
+    this.isModalOpen=true
+    this.userEdit = {...this.currentUser};
+  }
+
+  onUserUpdate():void{
+    if(!this.userEdit.password || !this.userEdit.confirmPassword || !this.userEdit.username){
+      alert("Please input all!");
+      return;
+    }else if(this.userEdit.password !== this.userEdit.confirmPassword){
+      alert("Passwords do not match!");
+      return;
+    }
+
+    this.authService.updateUser(this.userEdit);
+
+    this.isModalOpen=false;
+  }
+
 }

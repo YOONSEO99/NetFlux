@@ -57,4 +57,13 @@ export class AuthService {
   getCurrentUser(){
     return this.currentUserSubject.asObservable();
   }
+
+  updateUser(userEdit:any):void{
+    this.users = this.users.map(u=>u.id === userEdit.id ? {...userEdit}:u);
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.users));
+
+    localStorage.setItem(this.LOGIN_SESSION_KEY,JSON.stringify(userEdit));
+    
+    this.currentUserSubject.next(userEdit);
+  }
 }

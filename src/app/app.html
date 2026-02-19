@@ -21,7 +21,7 @@
       <div class="sidebar-footer">
         <div class="user-profile">
           <span class="ment">Welcome</span><br>
-          <span class="user-name">{{currentUser.username}}!</span>
+          <span class="user-name" (click)="onEditUser()">{{currentUser.username}} !</span>
         </div><br>
         <button class="logout-btn" (click)="onLogout()">Logout</button>
       </div>
@@ -30,5 +30,33 @@
       <router-outlet></router-outlet>
     </main>
   </div>
+  <div class="userEditModal" *ngIf="isModalOpen">
+    <div class="modal-content">
+      <h2>Profile Update</h2>
 
+      <div class="input-group">
+        <label>ID</label>
+        <input type="text" [(ngModel)]="userEdit.id" readonly style="background-color: #1a1a1a; cursor: not-allowed;">
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="userEdit.password" placeholder="input new Password">
+      </div>
+
+      <div class="input-group">
+        <label>Confirm Password</label>
+        <input type="password" [(ngModel)]="userEdit.confirmPassword" placeholder="input new Password again">
+      </div>
+
+      <div class="input-group">
+        <label>Username</label>
+        <input type="text" [(ngModel)]="userEdit.username">
+      </div>
+      <div class="modal-action">
+        <button class="save-btn" (click)="onUserUpdate()">Save</button>
+        <button class="cancel-btn" (click)="isModalOpen = false">Cancel</button>
+      </div>
+    </div>
+  </div>
 </div>

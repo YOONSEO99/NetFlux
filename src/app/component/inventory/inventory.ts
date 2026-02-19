@@ -80,6 +80,10 @@ export class Inventory implements OnInit {
 
     this.devices = [...this.devices, deviceToPush];
     this.originalDevices = [...this.originalDevices, deviceToPush];
+
+    this.devices = [...this.originalDevices];
+    this.sortMode='none';
+
     this.deviceService.addDevice(deviceToPush);
 
     this.newDevice = {
@@ -128,7 +132,12 @@ export class Inventory implements OnInit {
       d.id === this.newDevice.id ? { ...this.newDevice } : d
     );
 
-    this.originalDevices = [...this.devices];
+    this.originalDevices = this.originalDevices.map(d =>
+      d.id === this.newDevice.id ? { ...this.newDevice } : d);
+    
+    this.devices = [...this.originalDevices];
+    this.sortMode = 'none';
+
     this.deviceService.updateDevice(this.newDevice);
 
     this.newDevice = {
@@ -150,6 +159,7 @@ export class Inventory implements OnInit {
     if (confirm('Are you sure to delete it?')) {
       this.devices = this.devices.filter(d => d.id !== id);
       this.originalDevices = this.originalDevices.filter(d => d.id !== id);
+      this.sortMode='none';
       this.deviceService.delDevice(id);
       this.cdr.detectChanges();
     }
